@@ -28,6 +28,7 @@ void start(String lift_off){
         }
      
         else if(time == 0){
+          delay(1000);
           Serial.println("start-up");
           status_start_ok();
         }
