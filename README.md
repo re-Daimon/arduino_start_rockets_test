@@ -3,6 +3,6 @@
 
 This is a test version of how a rocket launch will work
 
-Further improvements will be made
--traction measurement
--automatic ignition fuel
+Further improvements will be made:
+1)traction measurement
+2)automatic ignition fuel
