@@ -1,4 +1,3 @@
-int count;
 String Captcha;
 String plug;
  
@@ -38,11 +37,12 @@ void Captcha_func(String number){
     }
       }
     }else{
-      Serial.println("Authorization failed. Console no");
+      Serial.println("Authorization failed. Console no (you need to put \"No Line Ending\"!)");
       }
   }
 
 void start(String lift_off){
+  String time_str;
   Serial.println(lift_off);
   if (lift_off == "start"){
     Serial.println("Command accepted. Please move away, very dangerous !!!");
@@ -51,12 +51,17 @@ void start(String lift_off){
     for (int time = 10; time >= -1; time--){
       if (time > 0){
           delay(1000);
-          Serial.println(time);
+          if (time < 10){
+            time_str = "0" + String(time);
+          }else{
+            time_str = time;
+          }
+          Serial.println("T - 00:00:" + time_str);
         }
      
         else if(time == 0){
           delay(1000);
-          Serial.println("start-up");
+          Serial.println("T + 00:00:00");
           status_start_ok();
         }
     }
@@ -67,11 +72,39 @@ void start(String lift_off){
   }
 
 void status_start_ok(){
-  count=0;
+  int seconds=0;
+  int minute=0;
+  int hours=0;
+  String seconds_str;
+  String minute_str;
+  String hours_str;
   while(true){
-    Serial.println(count);
-    count++;
     delay(1000);
+    seconds++;
+    if (seconds < 10){
+            seconds_str = "0" + String(seconds);
+          }else{
+            seconds_str = seconds;
+          }
+    if (minute < 10){
+            minute_str = "0" + String(minute);
+          }else{
+            minute_str = minute;
+          }
+    if (hours < 10){
+            hours_str = "0" + String(hours);
+          }else{
+            hours_str = hours;
+          }
+    Serial.println("T + " + hours_str + ":" + minute_str + ":" + seconds_str );
+    if (seconds == 59){
+      minute++;
+      seconds = -1;
+    }
+    if (minute == 59){
+      hours++;
+      minute = -1;
+    }
      if (Serial.available() > 0){
       String id_data = Serial.readString();
       if (id_data == "stop"){
