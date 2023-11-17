@@ -4,6 +4,9 @@ GyverOLED<SSD1306_128x64, OLED_NO_BUFFER> oled;
 
 String Captcha;
 String plug;
+
+// Arduino: SDA – A4, SCL – A5
+// Wemos: SDA – D2, SCL – D1
  
 void setup() {
   oled.init();        // инициализация
@@ -30,14 +33,50 @@ void Captcha_func(String number){
     Serial.println("Write \"plugdi\" activates commands, \"plugen\" prohibits entering commands");
     Serial.println("Write \"start\" to start the launch(you need to enable \"plugdi\")");
     Serial.println("The plug is enabled");
+    oled.clear(); 
+    oled.setScale(1);   // масштаб текста (1..4)
+    oled.setCursorXY(0, 0);
+    oled.print("Authorized.Console on");
+    oled.setCursorXY(0, 10);
+    oled.print("commands:");
+    oled.setCursorXY(0, 25);
+    oled.print("-plugdi -plugen");
+    oled.setCursorXY(0, 37);
+    oled.print("-start");
+    oled.setCursorXY(0, 53);
+    oled.print("The plug is enabled");
     while(true){
       if (Serial.available() > 0){
       String id_data = Serial.readString();
       if (id_data == "plugen"){
         Serial.println("The plug is enabled");
+        oled.clear(); 
+        oled.setScale(1);   // масштаб текста (1..4)
+        oled.setCursorXY(0, 0);
+        oled.print("Authorized.Console on");
+        oled.setCursorXY(0, 10);
+        oled.print("commands:");
+        oled.setCursorXY(0, 25);
+        oled.print("-plugdi -plugen");
+        oled.setCursorXY(0, 37);
+        oled.print("-start");
+        oled.setCursorXY(0, 53);
+        oled.print("The plug is enabled");
         plug = "yes";
         }else if (id_data == "plugdi"){
           Serial.println("The plug is disable");
+          oled.clear(); 
+          oled.setScale(1);   // масштаб текста (1..4)
+          oled.setCursorXY(0, 0);
+          oled.print("Authorized.Console on");
+          oled.setCursorXY(0, 10);
+          oled.print("commands:");
+          oled.setCursorXY(0, 25);
+          oled.print("-plugdi -plugen");
+          oled.setCursorXY(0, 37);
+          oled.print("-start");
+          oled.setCursorXY(0, 53);
+          oled.print("The plug is disable");
           plug = "no";
           }
       if (plug == "no"){
@@ -47,6 +86,10 @@ void Captcha_func(String number){
       }
     }else{
       Serial.println("Authorization failed. Console no (you need to put \"No Line Ending\"!)");
+      oled.clear(); 
+      oled.setScale(1);   // масштаб текста (1..4)
+      oled.setCursorXY(0, 0);
+      oled.print("Authorization failed");
       }
   }
 
@@ -56,7 +99,19 @@ void start(String lift_off){
   if (lift_off == "start"){
     Serial.println("Command accepted. Please move away, very dangerous !!!");
     Serial.println("Countdown:");
+    oled.clear(); 
+    oled.setScale(1);   // масштаб текста (1..4)
+    oled.setCursorXY(0, 0);
+    oled.print("Command accepted");
+    oled.setCursorXY(0, 15);
+    oled.print("Please move away,");
+    oled.setCursorXY(0, 25);
+    oled.print("very dangerous");
+    oled.setCursorXY(0, 45);
+    oled.print("Countdown:");
+
     delay(5000);
+    oled.clear(); 
     for (int time = 10; time >= -1; time--){
       if (time > 0){
           delay(1000);
@@ -137,4 +192,4 @@ void status_start_ok(){
         }
     }
     }
-  }
+  }  
